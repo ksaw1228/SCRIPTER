@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCRIPTER</title>
+    <link rel="favicon" href="keyboard.ico">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="backcor">
+        <div id="navpar">
+          <div id="nav">
+    <%-include('nav.ejs') %>
+
+          </div>
+        </div>
+        <div id="flexbox">
+          <div>
+            <form action="/join" method="post" id="join-form">
+              <p>회원가입</p>
+              <input type="text" name="id" required placeholder="Enter your ID">
+              <input type="password" name="pw" required placeholder="Enter your Password">
+              <button type="submit">회원가입</button>
+          </form>
+          </div>
+        </div>
+      </div>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $('#join-form').on('submit', function(event) {
+        event.preventDefault(); 
+        const formData = $(this).serialize();
+        $.ajax({
+          type: 'POST',
+          url: '/join',
+          data: formData,
+          success: function(response) {
+            if (response.success) {
+              alert(response.message);
+              window.location.href = '/login';
+            } else {
+              alert(response.message); 
+            }
+          },
+          error: function(xhr, status, error) {
+            console.error(error);
+            alert(xhr.responseText);
+          }
+        });
+      });
+    </script>
+</body>
+</html>

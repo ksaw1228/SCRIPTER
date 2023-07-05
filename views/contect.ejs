@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>SCRIPTER</title>
+    <link rel="favicon" href="keyboard.ico">
+</head>
+<body>
+    <div class="backcor">
+        <div id="navpar">
+            <div id="nav">
+                <%-include('nav.ejs') %>
+            </div>
+        </div>
+        <div style="text-align: center; color: white;">
+            <!-- <h2>건의사항,피드백이 있다면 연락주세요!</h2>
+            <h3>E-mail: ksaw1228@gmail.com</h3> -->
+            <h2>건의사항 , 피드백을 남겨주세요!</h2>
+            <h2>감사히 수용하겠습니다.</h2>
+            <form action="/contect" method="post" style="width: 500px;">
+                <textarea name="contect" id="" cols="30" rows="10" style="width: 500px; height: 300px;"></textarea>
+                <button>전송하기</button>
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>

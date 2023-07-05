@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCRIPTER</title>
+    <link rel="favicon" href="keyboard.ico">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+</head>
+<body>
+  <div class="backcor" style="flex-wrap: wrap;">   
+    <div id="parent">      
+      <div id="navpar">
+      <div id="nav">
+    <%-include('nav.ejs') %>
+
+      </div>
+    </div>
+      <div style="flex: 1; border-bottom: 1px solid; display: flex;">
+        <form enctype="multipart/form-data" action="/upload" method="POST" style="border: 1px solid; width: 80%;">
+          <div style="display: inline-block; width: 48.8%;">한글 스크립트</div>
+          <div style="display: inline-block; width: 48.8%;">영문 스크립트</div>
+          <input type="file" name="userFile" style="width: 44%;" required>
+          <input type="file" name="userFile" style="width: 44%;" required>
+          <input type="text" name="subtitleId" placeholder="영화제목을 입력하세요" style="width: 77%;" required>
+          <input type="submit" value="업로드" style="width: 15%;">
+        </form>
+      </div>
+      <div style="flex: 6;display: flex;overflow: auto;scrollbar-width: none;-ms-overflow-style: none;flex-wrap: wrap;justify-content: space-evenly;padding-top: 20px;" >
+          <% for(let i = 0; i < data.length; i++) { %>
+            <div style="display: inline-block; width: 17%; height: 65%; margin-bottom: 20px; padding-bottom: 20px; text-align: center;">
+              <div style="width: 100%; height: 85%; margin-bottom: 10px; border: 1px solid">
+                <label for="<%=i%>">
+                  <img class="upimage" src="/image/<%=data[i].image==''?  'uploadplz.png': data[i].image%>"alt="이미지를 불러오지 못했습니다." style="width: 100%; height: 100%;">
+                </label>
+                <input type="file" id="<%=i%>" class="file-upload"style="display: none;">
+              </div>
+              <div><%= data[i].title %></div>
+              <a href="/react/<%=data[i]._id%>" style="color: #323437;">
+                <button style="background-color: #666; color: white;">타이핑</button>
+              </a>
+              <a href="/script/<%=data[i]._id%>" style="color: #323437;">
+                <button style="background-color: #666; color: white;">스크립트</button>
+              </a>
+              <button style="background-color: #666; color: white;" class="belBtn">삭제</button>
+            </div>
+          <% } %>
+      </div>
+    </div>
+  </div>
+    
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+  $('.belBtn').click(function(e){
+    const par = e.target.parentElement
+    const a =(par.querySelector('a').href)
+    const id = a.match(/\/(\w+)$/)[1];
+    $.ajax({
+      method: 'DELETE',
+      url: '/delete',
+      data : {
+        id : id,
+      }
+    })
+    .done(function(response) {
+      location.reload();
+    })
+    .fail(function(error) {
+      // 로그아웃 실패 처리
+      console.error(error);
+      alert('로그아웃에 실패했습니다.');
+    });
+  });
+  document.querySelectorAll('.file-upload').forEach(fileUpload => {
+  fileUpload.addEventListener('change', async (e) => {
+    const formData = new FormData();
+    const query = e.target.parentElement.parentElement.querySelector('a').getAttribute('href');
+    const regex = /\/react\/(\w+)/;
+    const id = query.match(regex)[1]; // 수정된 부분
+
+    formData.append('file', e.target.files[0]);
+    formData.append('id', id); // id를 formData 에 추가하는 부분
+
+    const response = await fetch('/upimage', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (response.ok) {
+      location.reload();
+    } else {
+      alert('Error uploading file!');
+    }
+  });
+});
+
+</script>
+</body>
+</html>

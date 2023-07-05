@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>SCRIPTER</title>
+    <link rel="favicon" href="keyboard.ico">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div class="backcor">
+      <div id="navpar">
+        <div id="nav">
+    <%-include('nav.ejs') %>
+
+        </div>
+      </div>
+      <div id="flexbox">
+        <div>
+          <form class="login">
+            <p>로그인</p>
+              <input type="text" name="id" required placeholder="Enter your ID">
+              <input type="password" name="pw" required placeholder="Enter yout PW"><br>
+              <button type="submit">로그인</button>
+              <a href="/join">회원가입</a>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      $('.login').on('submit', function(event) { // 폼의 submit 이벤트를 처리
+        event.preventDefault(); // 폼이 즉시 제출되지 않도록 함
+    
+        const formData = $(this).serialize(); // 폼 데이터를 가져옴
+    
+        $.ajax({
+          type: 'POST',
+          url: '/login',
+          data: formData,
+          success: function(response) {
+            if (response.success) {
+              // 로그인이 성공했을 때
+              window.location.href = '/main';    
+            } else {
+              // 로그인이 실패하면 오류 메시지를 출력
+              alert(response.message);
+            }
+          },
+          error: function(xhr, status, error) {
+            console.error(error);
+            alert("회원정보가 없습니다");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

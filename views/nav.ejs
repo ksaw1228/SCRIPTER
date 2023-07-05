@@ -1,0 +1,30 @@
+
+<nav class="navC">
+  <div class="navC-left">
+    <a href="/" class="navC-item" style="font-family: fira-sans-900italic; color: #ffe1e1;">SCRIPTER</a>
+    <a href="#" class="navC-item"></a>
+  </div>
+  <div class="navC-right">
+    <a href="/contect" class="navC-item"><img src="mail.png" style="filter: invert(100%);"></a>
+    <a href="#" class="navC-item logout"><img src="logout.png" style="filter: invert(100%);"></a>
+    <a href="/login" class="navC-item"><img src="user.png" style="filter: invert(100%);"></a>
+  </div>
+</nav>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+  $('.logout').click(function(){
+    $.ajax({
+      method: 'POST',
+      url: '/logout',
+    })
+    .done(function(response) {
+      // 로그아웃 성공 후 홈으로 이동
+      window.location.replace('/');
+    })
+    .fail(function(error) {
+      // 로그아웃 실패 처리
+      console.error(error);
+      alert('로그아웃에 실패했습니다.');
+    });
+  });
+</script>
