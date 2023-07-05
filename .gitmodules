@@ -1,0 +1,3 @@
+[submodule "react-front"]
+	path = react-front
+	url = https://github.com/ksaw1228/SCRIPTER.git/main
