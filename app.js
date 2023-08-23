@@ -66,7 +66,7 @@ var cors = require('cors');
 
 app.use(cors());
 app.use( '/', express.static( path.join(__dirname, 'public') ))
-app.use( '/react', express.static( path.join(__dirname, 'react-front/build') ))
+app.use( '/react', express.static( path.join(__dirname, 'build') ))
 
 //패스포트 유저인증
 passport.use(new LocalStrategy({
@@ -250,7 +250,7 @@ app.get('/main',(req,res) => {
 })
 
 app.get('/react/:id', function(요청,응답){
-    응답.sendFile( path.join(__dirname, 'react-front/build/index.html') )
+    응답.sendFile( path.join(__dirname, 'build/index.html') )
   })
 
 app.get('/script/:id', (req, res) => {
